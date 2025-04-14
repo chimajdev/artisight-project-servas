@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "servas-chart.fullname" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "servas-chart.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "servas-chart.name" . }}
+    spec:
+      containers:
+        - name: servas
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+          env:
+            - name: DB_HOST
+              value: "{{ .Values.env.database_host }}"
+            - name: DB_PORT
+              value: "{{ .Values.env.database_port }}"
+            - name: DB_NAME
+              value: "{{ .Values.env.database_name }}"
+            - name: DB_USERNAME
+              value: "{{ .Values.env.database_user }}"
+            - name: DB_PASSWORD
+              value: "{{ .Values.env.database_password }}"
+            - name: SECRET_KEY
+              value: "{{ .Values.env.secret_key }}"
+            - name: DB_CONNECTION
+              value: "{{ .Values.env.database_connection }}"
+            - name: DB_DATABASE
+              value: "{{ .Values.env.database_name }}"
+            - name: APP_KEY
+              value: "{{ .Values.env.app_key }}"

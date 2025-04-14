@@ -1,0 +1,9 @@
+defaultNamespace: default
+
+helm:
+  chart: ./helm/servas-chart
+  releaseName: servas
+
+targets:
+  - name: local
+    clusterName: local
